@@ -1,21 +1,35 @@
-﻿using System;
+using System;
 using System.Linq;
 
+Console.Write("пузырьковая сортировка: императивный стиль: ");
 int[] arr = { -5, 16, 87, 0, -33, 25, -11 };
 BubbleSortImp(arr);
 for (int i = 0; i < arr.Length; i++) Console.Write(arr[i] + " "); Console.WriteLine();
 
+Console.Write("пузырьковая сортировка: функциональный стиль: ");
 int[] arr1 = { -5, 16, 87, 0, -33, 25, -11 };
 arr1 = BubbleSortFunc(arr1, arr1.Length);
 for (int i = 0; i < arr1.Length; i++) Console.Write(arr1[i] + " "); Console.WriteLine();
 
+Console.Write("сортировка вставками: императивный стиль: ");
 int[] arr2 = { -5, 16, 87, 0, -33, 25, -11 };
 InsertionSortImp(arr2);
 for (int i = 0; i < arr2.Length; i++) Console.Write(arr2[i] + " "); Console.WriteLine();
 
+Console.Write("сортировка вставками: функциональный стиль: ");
 int[] arr3 = { -5, 16, 87, 0, -33, 25, -11 };
 arr3 = InsertionSortFunc(arr3);
 for (int i = 0; i < arr3.Length; i++) Console.Write(arr3[i] + " "); Console.WriteLine();
+
+Console.Write("сортировка выбором: императивный стиль: ");
+int[] arr4 = { -5, 16, 87, 0, -33, 25, -11 };
+SelectionSortImp(arr4);
+for (int i = 0; i < arr4.Length; i++) Console.Write(arr4[i] + " "); Console.WriteLine();
+
+Console.Write("сортировка выбором: функциональный стиль: ");
+int[] arr5 = { -5, 16, 87, 0, -33, 25, -11 };
+arr3 = SelectionSortFunc(arr5);
+for (int i = 0; i < arr5.Length; i++) Console.Write(arr5[i] + " "); Console.WriteLine();
 
 // пузырьковая сортировка: императивный стиль
 void BubbleSortImp(int[] arr)
@@ -24,7 +38,7 @@ void BubbleSortImp(int[] arr)
 
     for (int i = 0; i < n - 1; i++)
         for (int j = 0; j < n - i - 1; j++)
-            if (arr[j] > arr[j + 1]) 
+            if (arr[j] > arr[j + 1])
                 (arr[j], arr[j + 1]) = (arr[j + 1], arr[j]);
 }
 // пузырьковая сортировка: функциональный стиль
@@ -82,10 +96,10 @@ void InsertionSortImp(int[] array)
     }
 }
 // сортировка вставками: функциональный стиль
-static int[] InsertionSortFunc(int[] array)
+int[] InsertionSortFunc(int[] array)
 {
     // если массив пуст или содержит один элемент, то возвращаем
-    if (array.Length <= 1) return array; 
+    if (array.Length <= 1) return array;
 
     // находим наименьший элемент в массиве с помощью рекурсивной функции
     int min = FindMin(array, 0, array[0]);
@@ -107,7 +121,7 @@ static int FindMin(int[] array, int index, int min)
 }
 static int[] RemoveElement(int[] array, int element)
 {
-    if (array.Length == 0) return array; 
+    if (array.Length == 0) return array;
 
     // проверяем, равен ли первый элемент заданному
     if (array[0] == element)
@@ -120,22 +134,26 @@ static int[] RemoveElement(int[] array, int element)
 
 
 // сортировка выбором: императивный стиль
-static int[] SelectionSort(int[] array, int currentIndex = 0)
+void SelectionSortImp(int[] array, int currentIndex = 0)
 {
-    if (currentIndex == array.Length)
-        return array;
+    if (currentIndex == array.Length) return;
 
     var index = IndexOfMin(array, currentIndex);
     if (index != currentIndex) (array[index], array[currentIndex]) = (array[currentIndex], array[index]);
 
-    return SelectionSort(array, currentIndex + 1);
+    SelectionSortImp(array, currentIndex + 1);
 }
 // метод поиска позиции минимального элемента подмассива, начиная с позиции n
-static int IndexOfMin(int[] array, int n)
+int IndexOfMin(int[] array, int n)
 {
     int result = n;
     for (var i = n; i < array.Length; ++i)
         if (array[i] < array[result]) result = i;
 
     return result;
+}
+// сортировка выбором: функциональный стиль
+int[] SelectionSortFunc(int[] array)
+{
+    return array;
 }
