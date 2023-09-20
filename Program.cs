@@ -42,39 +42,34 @@ void BubbleSortImp(int[] arr)
                 (arr[j], arr[j + 1]) = (arr[j + 1], arr[j]);
 }
 // пузырьковая сортировка: функциональный стиль
-static int[] BubbleSortFunc(int[] arr, int length)
+// повторяет процесс пузырьковой сортировки, пока массив не будет отсортирован
+int[] BubbleSortFunc(int[] arr)
 {
-    int[] array = arr;
-
-    // eсли массив пуст или содержит один элемент, то возвращаем
-    if (array.Length <= 1) return array;
-
-    // Иначе вызываем рекурсивную функцию, которая сортирует массив за один проход
-    return BubbleSortOnePass(array, 0, new int[array.Length]);
+    if (IsSorted_BubFunc(arr))
+    {
+        return arr;
+    } else {
+        return BubbleSortFunc(Bubble_BubFunc(arr, 0));
+    }
 }
-
-// Рекурсивная функция, которая сортирует массив за один проход
-static int[] BubbleSortOnePass(int[] array, int index, int[] result)
+bool IsSorted_BubFunc(int[] array)
 {
-    // если конец массива, возвращаем результат
-    if (index == array.Length) return result;
-
-    // проверяем, нужно ли менять местами текущий элемент и следующий
-    if (index < array.Length - 1 && array[index] > array[index + 1])
+    return array.Zip(array.Skip(1), (a, b) => a <= b).All(x => x);
+}
+// меняет местами два элемента массива, если первый больше второго
+int[] Swap_BubFunc(int[] array, int i)
+{
+    if (array[i] > array[i + 1])
     {
-        // Если да, то меняем их местами в результате
-        result[index] = array[index + 1];
-        result[index + 1] = array[index];
-        // Продолжаем сортировку с индексом, увеличенным на 2
-        return BubbleSortOnePass(array, index + 2, result);
+        (array[i], array[i + 1]) = (array[i + 1], array[i]);
     }
-    else
-    {
-        // Если нет, то копируем текущий элемент в результат без изменений
-        result[index] = array[index];
-        // Продолжаем сортировку с индексом, увеличенным на 1
-        return BubbleSortOnePass(array, index + 1, result);
-    }
+    return array;
+}
+// проходит по массиву и меняет местами соседние элементы, если нужно
+int[] Bubble_BubFunc(int[] array, int i)
+{
+    if (i < array.Length - 1) return Bubble_BubFunc(Swap_BubFunc(array, i), i + 1);
+    else return array;
 }
 
 
@@ -102,34 +97,34 @@ int[] InsertionSortFunc(int[] array)
     if (array.Length <= 1) return array;
 
     // находим наименьший элемент в массиве с помощью рекурсивной функции
-    int min = FindMin(array, 0, array[0]);
+    int min = FindMin_InsertFunc(array, 0, array[0]);
 
     // создаем новый массив без наименьшего элемента с помощью рекурсивной функции
-    int[] newArray = RemoveElement(array, min);
+    int[] newArray = RemoveElement_InsertFunc(array, min);
 
     // рекурсивно сортируем новый массив и добавляем наименьший элемент в начало
     return new int[] { min }.Concat(InsertionSortFunc(newArray)).ToArray();
 }
-static int FindMin(int[] array, int index, int min)
+int FindMin_InsertFunc(int[] array, int index, int min)
 {
     if (index == array.Length) return min;
 
     // сравниваем текущий элемент с наименьшим и продолжаем поиск
     if (array[index] < min) min = array[index];
 
-    return FindMin(array, index + 1, min);
+    return FindMin_InsertFunc(array, index + 1, min);
 }
-static int[] RemoveElement(int[] array, int element)
+int[] RemoveElement_InsertFunc(int[] array, int element)
 {
     if (array.Length == 0) return array;
 
     // проверяем, равен ли первый элемент заданному
     if (array[0] == element)
         // да => пропускаем его и продолжаем с остальными элементами
-        return RemoveElement(array.Skip(1).ToArray(), element);
+        return RemoveElement_InsertFunc(array.Skip(1).ToArray(), element);
     else
         // нет => добавляем его в начало нового массива и продолжаем с остальными элементами
-        return new int[] { array[0] }.Concat(RemoveElement(array.Skip(1).ToArray(), element)).ToArray();
+        return new int[] { array[0] }.Concat(RemoveElement_InsertFunc(array.Skip(1).ToArray(), element)).ToArray();
 }
 
 
@@ -138,13 +133,13 @@ void SelectionSortImp(int[] array, int currentIndex = 0)
 {
     if (currentIndex == array.Length) return;
 
-    var index = IndexOfMin(array, currentIndex);
+    var index = FindMinIndex_SelImp(array, currentIndex);
     if (index != currentIndex) (array[index], array[currentIndex]) = (array[currentIndex], array[index]);
 
     SelectionSortImp(array, currentIndex + 1);
 }
 // метод поиска позиции минимального элемента подмассива, начиная с позиции n
-int IndexOfMin(int[] array, int n)
+int FindMinIndex_SelImp(int[] array, int n)
 {
     int result = n;
     for (var i = n; i < array.Length; ++i)
@@ -155,5 +150,30 @@ int IndexOfMin(int[] array, int n)
 // сортировка выбором: функциональный стиль
 int[] SelectionSortFunc(int[] array)
 {
+    return Selection__SelFunc(array, 0);
+}
+int FindMinIndex_SelFunc(int[] array, int start)
+{
+    if (start == array.Length - 1) return start;
+    else
+    {
+        int minIndex = FindMinIndex_SelFunc(array, start + 1);
+        return array[start] < array[minIndex] ? start : minIndex;
+    }
+}
+// Функция, которая меняет местами два элемента массива
+int[] Swap_SelFunc(int[] array, int i, int j)
+{
+    if (i != j) (array[i], array[j]) = (array[j], array[i]);
     return array;
+}
+// Функция, которая проходит по массиву и выбирает наименьший элемент для каждой позиции
+int[] Selection__SelFunc(int[] array, int i)
+{
+    if (i < array.Length - 1)
+    {
+        int minIndex = FindMinIndex_SelFunc(array, i);
+        return Selection__SelFunc(Swap_SelFunc(array, i, minIndex), i + 1);
+    }
+    else return array;
 }
