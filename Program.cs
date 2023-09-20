@@ -1,32 +1,32 @@
 using System;
 using System.Linq;
 
-Console.Write("пузырьковая сортировка: императивный стиль: ");
+Console.Write("пузырьковая сортировка | императивный стиль: ");
 int[] arr = { -5, 16, 87, 0, -33, 25, -11 };
 BubbleSortImp(arr);
 for (int i = 0; i < arr.Length; i++) Console.Write(arr[i] + " "); Console.WriteLine();
 
-Console.Write("пузырьковая сортировка: функциональный стиль: ");
+Console.Write("пузырьковая сортировка | функциональный стиль: ");
 int[] arr1 = { -5, 16, 87, 0, -33, 25, -11 };
-arr1 = BubbleSortFunc(arr1, arr1.Length);
+arr1 = BubbleSortFunc(arr1);
 for (int i = 0; i < arr1.Length; i++) Console.Write(arr1[i] + " "); Console.WriteLine();
 
-Console.Write("сортировка вставками: императивный стиль: ");
+Console.Write("сортировка вставками | императивный стиль: ");
 int[] arr2 = { -5, 16, 87, 0, -33, 25, -11 };
 InsertionSortImp(arr2);
 for (int i = 0; i < arr2.Length; i++) Console.Write(arr2[i] + " "); Console.WriteLine();
 
-Console.Write("сортировка вставками: функциональный стиль: ");
+Console.Write("сортировка вставками | функциональный стиль: ");
 int[] arr3 = { -5, 16, 87, 0, -33, 25, -11 };
 arr3 = InsertionSortFunc(arr3);
 for (int i = 0; i < arr3.Length; i++) Console.Write(arr3[i] + " "); Console.WriteLine();
 
-Console.Write("сортировка выбором: императивный стиль: ");
+Console.Write("сортировка выбором | императивный стиль: ");
 int[] arr4 = { -5, 16, 87, 0, -33, 25, -11 };
 SelectionSortImp(arr4);
 for (int i = 0; i < arr4.Length; i++) Console.Write(arr4[i] + " "); Console.WriteLine();
 
-Console.Write("сортировка выбором: функциональный стиль: ");
+Console.Write("сортировка выбором | функциональный стиль: ");
 int[] arr5 = { -5, 16, 87, 0, -33, 25, -11 };
 arr3 = SelectionSortFunc(arr5);
 for (int i = 0; i < arr5.Length; i++) Console.Write(arr5[i] + " "); Console.WriteLine();
